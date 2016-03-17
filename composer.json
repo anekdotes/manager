@@ -3,10 +3,10 @@
     "type": "library",
     "description": "Provides an easier way to upload images with configurations",
     "keywords": [
-      "manager",
-      "image",
-      "file",
-      "upload"
+        "manager",
+        "image",
+        "file",
+        "upload"
     ],
     "homepage": "https://github.com/anekdotes/manager",
     "license": "MIT",
@@ -17,15 +17,15 @@
         "illuminate/http": "4.2.*"
     },
     "authors": [
-      {
-        "name": "Mathieu Gosselin",
-        "email": "mathieu.gosselin@anekdotes.com",
-        "homepage": "http://anekdotes.com"
-      }
+        {
+            "name": "Mathieu Gosselin",
+            "email": "mathieu.gosselin@anekdotes.com",
+            "homepage": "http://anekdotes.com"
+        }
     ],
     "autoload": {
         "psr-4": {
-            "Anekdotes\\": "src/anekdotes"
+            "Anekdotes\\Manager\\": "src"
         }
     }
 }

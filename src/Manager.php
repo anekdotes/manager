@@ -1,4 +1,4 @@
-<?php namespace Anekdotes;
+<?php namespace Anekdotes\Manager;
 use Closure; use Illuminate\Support\Facades\Input; use Illuminate\Support\Facades\File; use Imagine\Image\ImageInterface; use Imagine\Image\Box; use Image;
 
 class Manager {
