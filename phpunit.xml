@@ -12,7 +12,7 @@
 
   <filter>
     <whitelist>
-      <directory>src/anekdotes</directory>
+      <directory>src</directory>
     </whitelist>
   </filter>
 

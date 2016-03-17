@@ -1,4 +1,4 @@
-<?php namespace Anekdotes;
+<?php namespace Anekdotes\Manager;
 
 class Image {
   const GD = 1;

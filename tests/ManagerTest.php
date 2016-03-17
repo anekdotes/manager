@@ -1,5 +1,5 @@
 <?php namespace Tests;
-use PHPUnit_Framework_TestCase; use Anekdotes\Manager;
+use PHPUnit_Framework_TestCase; use Anekdotes\Manager\Manager;
 
 class ManagerTest extends PHPUnit_Framework_TestCase
 {
