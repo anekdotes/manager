@@ -1,7 +1,9 @@
 {
     "name": "anekdotes/manager",
-    "description": "Provides an easier way to upload images with configurations",
     "type": "library",
+    "description": "Provides an easier way to upload images with configurations",
+    "keywords": ["manager","image","file","upload"],
+    "homepage": "https://github.com/anekdotes/manager",
     "license": "MIT",
     "require": {
         "php": ">=5.3.0",
@@ -11,6 +13,5 @@
         "psr-4": {
             "Anekdotes\\Manager\\": "src/"
         }
-    },
-    "target-dir": "anekdotes/validator"
+    }
 }
