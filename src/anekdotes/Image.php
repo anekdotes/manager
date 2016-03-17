@@ -1,4 +1,4 @@
-<?php namespace Anekdotes\Manager;
+<?php namespace Anekdotes;
 
 class Image {
   const GD = 1;
@@ -15,7 +15,7 @@ class Image {
     else if ($library == Image::GMAGICK) {
       $inst = new \Imagine\Gmagick\Imagine();
     }
-    
+
     return $inst->open($file);
   }
 
