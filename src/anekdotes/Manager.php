@@ -3,24 +3,29 @@ use Closure; use Imagine\Image\ImageInterface; use Imagine\Image\Box; use Anekdo
 
 class Manager {
 
-  protected static $exts = array('jpg', 'png', 'jpeg');
-  protected static $path = 'uploads/';
-  protected static $weight = 3000000;
-  protected static $size = null;
-  protected static $prefix = 'public/';
+  protected $exts = array('jpg', 'png', 'jpeg');
+  protected $path = 'uploads/';
+  protected $weight = 3000000;
+  protected $size = null;
+  protected $prefix = 'public/';
   public $success = false;
 
   public function __construct($options = array()) {
     if (isset($options['exts']))
-     self::$exts = $options['exts'];
+      $this->exts = $options['exts'];
     if (isset($options['path']))
-     self::$path = $options['path'];
+      $this->path = $options['path'];
     if (isset($options['weight']))
-     self::$weight = $options['weight'];
+      $this->weight = $options['weight'];
     if (isset($options['size']))
-     self::$size = $options['size'];
+      $this->size = $options['size'];
     if (isset($options['prefix']))
-     self::$prefix = $options['prefix'];
+      $this->prefix = $options['prefix'];
+  }
+
+  public function set($option, $value){
+    if (property_exists($this, $option))
+      $this->$option = $value;
   }
 
   public function manage($fileInfo, Closure $uploadCallback = null) {
@@ -32,10 +37,10 @@ class Manager {
     $tmpPath = $fileInfo['tmp_name'];
 
     //basic validation
-    if ($fileInfo['size'] / 1000000 > self::$weight){
+    if ($fileInfo['size'] / 1000000 > $this->weight){
       throw new Exception("File is too big");
     }
-    if (!in_array($ext, self::$exts)){
+    if (!in_array($ext, $this->exts)){
       throw new Exception("File extension is not supported");
     }
 
@@ -46,13 +51,13 @@ class Manager {
     if ($uploadCallback){
       $filename = $uploadCallback();
     }
-    $newPath = "./" . self::$prefix . self::$path . $filename;
+    $newPath = $this->prefix . $this->path . $filename;
 
-    if (self::$size && is_array(self::$size)) {
-      foreach (self::$size as $size => $config) {
-        $newPath = self::$path . $size . '/';
+    if ($this->size && is_array($this->size)) {
+      foreach ($this->size as $size => $config) {
+        $newPath = $this->path . $size . '/';
         self::directorize($newPath);
-        $newPath = "./" . self::$prefix . $newPath . $filename;
+        $newPath = $this->prefix . $newPath . $filename;
         $quality = isset($config['quality']) ? $config['quality'] : 75;
         self::upload($tmpPath, $newPath, $ext, $quality, function($picture) use ($config) {
           $size = $picture->getSize();
@@ -99,7 +104,7 @@ class Manager {
 
   public function directorize($path){
     $folders = explode('/', $path);
-    $pathbuild = "./" . self::$prefix;
+    $pathbuild = $this->prefix;
     foreach ($folders as $folder) {
       $pathbuild .= "{$folder}/";
       $cond = File::exists($pathbuild) && File::isDirectory($pathbuild);
