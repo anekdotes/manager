@@ -13,8 +13,7 @@
     "require": {
         "php": ">=5.3.0",
         "imagine/imagine": "v0.6.1",
-        "illuminate/support": "4.2.*",
-        "illuminate/http": "4.2.*"
+        "anekdotes/file": "<2.0.0"
     },
     "authors": [
         {
@@ -25,7 +24,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Anekdotes\\Manager\\": "src"
+            "Anekdotes\\Manager\\": "src/anekdotes"
         }
     }
 }
