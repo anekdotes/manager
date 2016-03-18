@@ -1,31 +1,56 @@
 <?php namespace Tests;
-use PHPUnit_Framework_TestCase; use Anekdotes\Manager\Manager;
+use PHPUnit_Framework_TestCase; use Anekdotes\Manager\Manager; use Anekdotes\File\File;
 
 class ManagerTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testIfManagerCanBeCreated()
+    public function testManagerCreation()
     {
-        $a = new Manager();
-        $this->assertNotEmpty($a, "Manager couldn't be created");
+        $m = new Manager();
+        $this->assertNotEmpty($m);
     }
 
-    public function testIfManagerCanAcceptParams()
+    public function testManagerAcceptsConfig()
     {
-        $a = new Manager(array(
-          'prefix' => 'public/',
-          'path' => 'uploads/test/',
-          'exts' => array('jpg', 'jpeg', 'png', 'gif'),
-          'size' => array(
-            'square' => array(
-              'resize' => 'heighten',
-              'crop' => true,
-              'width' => 200,
-              'height' => 200
-            )
-          )
-        ));
-        $this->assertNotEmpty($a, "Manager couldn't be created");
+        require __DIR__ . "/testConfig.php";
+        $m = new Manager($configs);
+        $this->assertNotEmpty($m);
+    }
+
+    public function testManagerUploadDummyFile()
+    {
+        ini_set('memory_limit', '-1');
+        require __DIR__ . "/testConfig.php";
+        $path = __dir__ . "/dummy/dummy.jpg";
+        $dumInfo = array(
+          "name" => $path,
+          "type" => mime_content_type($path),
+          "tmp_name" => $path,
+          "error" => 0,
+          "size" => File::size($path)
+        );
+
+        $m = new Manager($configs);
+        $this->assertTrue($m->manage($dumInfo));
+    }
+
+    public function testManagerUploadDummyFileWClosure()
+    {
+        ini_set('memory_limit', '-1');
+        require __DIR__ . "/testConfig.php";
+        $path = __dir__ . "/dummy/dummy.jpg";
+        $dumInfo = array(
+          "name" => $path,
+          "type" => mime_content_type($path),
+          "tmp_name" => $path,
+          "error" => 0,
+          "size" => File::size($path)
+        );
+
+        $m = new Manager($configs);
+        $this->assertTrue($m->manage($dumInfo, function(){
+          return mt_rand(1000, 100000) . ".jpg";
+        }));
     }
 
 }
