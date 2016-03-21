@@ -49,7 +49,7 @@ class Manager {
 
     //there's a callback, execute the callback and return its value as new filename
     if ($uploadCallback){
-      $filename = $uploadCallback();
+      $filename = $uploadCallback($fileInfo);
     }
     $newPath = $this->prefix . $this->path . $filename;
 
