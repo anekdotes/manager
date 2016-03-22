@@ -1,5 +1,10 @@
 # Anekdotes Manager
 
+[![Latest Stable Version](https://poser.pugx.org/anekdotes/manager/v/stable)](https://packagist.org/packages/anekdotes/manager)
+[![Build Status](https://travis-ci.org/anekdotes/manager.svg?branch=master)](https://travis-ci.org/anekdotes/manager)
+[![License](https://poser.pugx.org/anekdotes/manager/license)](https://packagist.org/packages/anekdotes/manager)
+[![Total Downloads](https://poser.pugx.org/anekdotes/manager/downloads)](https://packagist.org/packages/anekdotes/manager)
+
 A library that provides an easy way to upload files to the server simply by using configurations.
 
 ## Installation
