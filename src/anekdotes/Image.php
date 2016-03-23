@@ -1,21 +1,15 @@
 <?php namespace Anekdotes\Manager;
+use Imagine\Gd\Imagine;
 
 class Image {
-  const GD = 1;
-  const IMAGICK = 2;
-  const GMAGICK = 3;
 
-  public static function open($file, $library = Image::GD) {
-    if ($library == Image::GD) {
-      $inst = new \Imagine\Gd\Imagine();
-    }
-    // else if ($library == Image::IMAGICK) {
-    //   $inst = new \Imagine\Imagick\Imagine();
-    // }
-    // else if ($library == Image::GMAGICK) {
-    //   $inst = new \Imagine\Gmagick\Imagine();
-    // }
-
+  /**
+   * Open the file for modification using imagine class
+   * @param  string $file file path
+   * @return instance of Imagine\Gd\Imagine
+   */
+  public static function open($file) {
+    $inst = new Imagine();
     return $inst->open($file);
   }
 

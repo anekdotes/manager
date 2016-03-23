@@ -10,6 +10,10 @@ class Manager {
   protected $prefix = 'public/';
   public $success = false;
 
+  /**
+   * overwrite default manager's properties
+   * @param array $options array of properties
+   */
   public function __construct($options = array()) {
     if (isset($options['exts']))
       $this->exts = $options['exts'];
@@ -23,25 +27,41 @@ class Manager {
       $this->prefix = $options['prefix'];
   }
 
+  /**
+   * set custom manager's property
+   * @param string $option property name
+   * @param mixed $value  new property value
+   */
   public function set($option, $value){
     if (property_exists($this, $option))
       $this->$option = $value;
   }
 
+  /**
+   * Manage the whole process (validation + upload)
+   * @param  string $fileInfo       [description]
+   * @param  closure $uploadCallback [description]
+   * @return boolean Return true at the end of the process
+   */
   public function manage($fileInfo, Closure $uploadCallback = null) {
-    if (is_null($fileInfo['error']) || $fileInfo['error'] > 0){
-      throw new Exception("Invalid image");
+    if (gettype($fileInfo) != "array"){
+      throw new \Exception('First parameter must be an `array` and not a `' . gettype($fileInfo) . '`');
     }
+
+    if (is_null($fileInfo['error']) || $fileInfo['error'] > 0){
+      throw new \Exception("Invalid file");
+    }
+
     $fileInfo = array_merge($fileInfo, pathinfo($fileInfo['name']));
     $ext = strtolower($fileInfo['extension']);
     $tmpPath = $fileInfo['tmp_name'];
 
     //basic validation
     if ($fileInfo['size'] / 1000000 > $this->weight){
-      throw new Exception("File is too big");
+      throw new \Exception("File is too big");
     }
     if (!in_array($ext, $this->exts)){
-      throw new Exception("File extension is not supported");
+      throw new \Exception("File extension is not supported");
     }
 
     $filename = date('YmdHis', time()) . ".jpg";
@@ -51,6 +71,8 @@ class Manager {
     if ($uploadCallback){
       $filename = $uploadCallback($fileInfo);
     }
+
+    self::directorize($this->path);
     $newPath = $this->prefix . $this->path . $filename;
 
     if ($this->size && is_array($this->size)) {
@@ -92,6 +114,14 @@ class Manager {
     return true;
   }
 
+  /**
+   * [upload description]
+   * @param  string $tmpPath       temporary uploaded file path
+   * @param  string $newPath       new file path
+   * @param  string $ext           extension of the uploaded file
+   * @param  integer $quality       quality of the uploaded file (useful if image)
+   * @param  closure $imageCallback function to execute during the upload
+   */
   public function upload($tmpPath, $newPath, $ext, $quality, Closure $imageCallback = null) {
     if ($imageCallback) {
       $file = Image::open($tmpPath);
@@ -102,6 +132,11 @@ class Manager {
     File::move($tmpPath, $newPath);
   }
 
+  /**
+   * creates folder recursively if there's none
+   * must have a prefix, by default /public
+   * @param  string $path Path to be created
+   */
   public function directorize($path){
     $folders = explode('/', $path);
     $pathbuild = $this->prefix;
