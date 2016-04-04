@@ -1,14 +1,14 @@
 <?php
-  $configs = array(
+  $configs = [
     'prefix' => '',
-    'path' => 'tests/cache/',
-    'exts' => array('jpg', 'jpeg', 'png', 'gif'),
-    'size' => array(
-      'square' => array(
+    'path'   => 'tests/cache/',
+    'exts'   => ['jpg', 'jpeg', 'png', 'gif'],
+    'size'   => [
+      'square' => [
         'resize' => 'heighten',
-        'crop' => true,
-        'width' => 200,
-        'height' => 200
-      )
-    )
-  );
+        'crop'   => true,
+        'width'  => 200,
+        'height' => 200,
+      ],
+    ],
+  ];

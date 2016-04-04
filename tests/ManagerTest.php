@@ -1,9 +1,13 @@
-<?php namespace Tests;
-use PHPUnit_Framework_TestCase; use Anekdotes\Manager\Manager; use Anekdotes\File\File;
+<?php
+
+namespace Tests;
+
+use Anekdotes\File\File;
+use Anekdotes\Manager\Manager;
+use PHPUnit_Framework_TestCase;
 
 class ManagerTest extends PHPUnit_Framework_TestCase
 {
-
     public function testManagerCreation()
     {
         $m = new Manager();
@@ -12,7 +16,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
 
     public function testManagerAcceptsConfig()
     {
-        require __DIR__ . "/testConfig.php";
+        require __DIR__.'/testConfig.php';
         $m = new Manager($configs);
         $this->assertNotEmpty($m);
     }
@@ -20,15 +24,15 @@ class ManagerTest extends PHPUnit_Framework_TestCase
     public function testManagerUploadDummyFile()
     {
         ini_set('memory_limit', '-1');
-        require __DIR__ . "/testConfig.php";
-        $path = __dir__ . "/dummy/dummy.jpg";
-        $dumInfo = array(
-          "name" => $path,
-          "type" => mime_content_type($path),
-          "tmp_name" => $path,
-          "error" => 0,
-          "size" => File::size($path)
-        );
+        require __DIR__.'/testConfig.php';
+        $path = __dir__.'/dummy/dummy.jpg';
+        $dumInfo = [
+          'name'     => $path,
+          'type'     => mime_content_type($path),
+          'tmp_name' => $path,
+          'error'    => 0,
+          'size'     => File::size($path),
+        ];
 
         $m = new Manager($configs);
         $this->assertTrue($m->manage($dumInfo));
@@ -37,20 +41,19 @@ class ManagerTest extends PHPUnit_Framework_TestCase
     public function testManagerUploadDummyFileWClosure()
     {
         ini_set('memory_limit', '-1');
-        require __DIR__ . "/testConfig.php";
-        $path = __dir__ . "/dummy/dummy.jpg";
-        $dumInfo = array(
-          "name" => $path,
-          "type" => mime_content_type($path),
-          "tmp_name" => $path,
-          "error" => 0,
-          "size" => File::size($path)
-        );
+        require __DIR__.'/testConfig.php';
+        $path = __dir__.'/dummy/dummy.jpg';
+        $dumInfo = [
+          'name'     => $path,
+          'type'     => mime_content_type($path),
+          'tmp_name' => $path,
+          'error'    => 0,
+          'size'     => File::size($path),
+        ];
 
         $m = new Manager($configs);
-        $this->assertTrue($m->manage($dumInfo, function(){
-          return mt_rand(1000, 100000) . ".jpg";
+        $this->assertTrue($m->manage($dumInfo, function () {
+          return mt_rand(1000, 100000).'.jpg';
         }));
     }
-
 }
