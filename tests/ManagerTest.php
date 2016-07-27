@@ -53,7 +53,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
 
         $m = new Manager($configs);
         $this->assertTrue($m->manage($dumInfo, function () {
-          return mt_rand(1000, 100000).'.jpg';
+            return mt_rand(1000, 100000).'.jpg';
         }));
     }
 }
