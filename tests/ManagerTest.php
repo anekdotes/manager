@@ -53,11 +53,11 @@ class ManagerTest extends PHPUnit_Framework_TestCase
     public function testManager5()
     {
         $configs = [
-            'prefix' => '',
-            'exts'   => ['jpg', 'jpeg', 'png', 'gif'],
+            'prefix'   => '',
+            'exts'     => ['jpg', 'jpeg', 'png', 'gif'],
             'weight'   => 3000000,
-            'path'   => 'tests/cache/',
-            'size'   => [
+            'path'     => 'tests/cache/',
+            'size'     => [
                 'square' => [
                     'resize' => 'heighten',
                     'crop'   => true,
@@ -122,16 +122,16 @@ class ManagerTest extends PHPUnit_Framework_TestCase
 
     public function testManager12()
     {
-      $m = new Manager();
-      $dummies = [
+        $m = new Manager();
+        $dummies = [
           'name'     => 'foo',
           'type'     => 'foo',
           'tmp_name' => 'foo',
           'error'    => null,
           'size'     => null,
       ];
-      $m->manage($dummies);
-      $this->assertFalse($m->success);
+        $m->manage($dummies);
+        $this->assertFalse($m->success);
     }
 
     public function testManager13()
@@ -170,7 +170,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
     {
         $configs = [
             'weight'   => 3000000,
-            'exts'   => ['jpg', 'jpeg', 'png', 'gif'],
+            'exts'     => ['jpg', 'jpeg', 'png', 'gif'],
         ];
         $path = __dir__.'/dummy/dummy.swf';
         $m = new Manager($configs);
@@ -189,7 +189,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
     {
         $configs = [
             'weight'   => 3000000,
-            'exts'   => ['jpg', 'jpeg', 'png', 'gif'],
+            'exts'     => ['jpg', 'jpeg', 'png', 'gif'],
         ];
         $m = new Manager($configs);
         $dummies = [
@@ -207,7 +207,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
     {
         $configs = [
             'weight'   => 3000000,
-            'exts'   => ['jpg', 'jpeg', 'png', 'gif'],
+            'exts'     => ['jpg', 'jpeg', 'png', 'gif'],
         ];
         $m = new Manager($configs);
         $dummies = [
@@ -224,11 +224,11 @@ class ManagerTest extends PHPUnit_Framework_TestCase
     public function testManager18()
     {
         $configs = [
-            'prefix' => '',
-            'exts'   => ['jpg', 'jpeg', 'png', 'gif'],
+            'prefix'   => '',
+            'exts'     => ['jpg', 'jpeg', 'png', 'gif'],
             'weight'   => 3000000,
-            'path'   => 'tests/cache/',
-            'size'   => [
+            'path'     => 'tests/cache/',
+            'size'     => [
                 'square' => [
                     'resize' => 'heighten',
                     'crop'   => true,
@@ -254,11 +254,11 @@ class ManagerTest extends PHPUnit_Framework_TestCase
     public function testManager19()
     {
         $configs = [
-            'prefix' => '',
-            'exts'   => ['jpg', 'jpeg', 'png', 'gif'],
+            'prefix'   => '',
+            'exts'     => ['jpg', 'jpeg', 'png', 'gif'],
             'weight'   => 3000000,
-            'path'   => 'tests/cache/',
-            'size'   => [
+            'path'     => 'tests/cache/',
+            'size'     => [
                 'square' => [
                     'resize' => 'heighten',
                     'crop'   => true,
@@ -286,11 +286,11 @@ class ManagerTest extends PHPUnit_Framework_TestCase
     public function testManager20()
     {
         $configs = [
-            'prefix' => '',
-            'exts'   => ['doc', 'docx', 'pdf'],
+            'prefix'   => '',
+            'exts'     => ['doc', 'docx', 'pdf'],
             'weight'   => 3000000,
-            'path'   => 'tests/cache/',
-            'size'   => [],
+            'path'     => 'tests/cache/',
+            'size'     => [],
         ];
         $path = __dir__.'/dummy/dummy.doc';
         $dummies = [
@@ -309,11 +309,11 @@ class ManagerTest extends PHPUnit_Framework_TestCase
     public function testManager21()
     {
         $configs = [
-            'prefix' => '',
-            'exts'   => ['swf', 'fla'],
+            'prefix'   => '',
+            'exts'     => ['swf', 'fla'],
             'weight'   => 3000000,
-            'path'   => 'tests/cache/',
-            'size'   => [],
+            'path'     => 'tests/cache/',
+            'size'     => [],
         ];
         $path = __dir__.'/dummy/dummy.swf';
         $dummies = [
@@ -331,12 +331,12 @@ class ManagerTest extends PHPUnit_Framework_TestCase
 
     public function testManager22()
     {
-      $configs = [
-          'prefix' => '',
-          'exts'   => ['jpg', 'jpeg', 'png', 'gif'],
+        $configs = [
+          'prefix'   => '',
+          'exts'     => ['jpg', 'jpeg', 'png', 'gif'],
           'weight'   => 3000000,
-          'path'   => 'tests/cache/',
-          'size'   => [
+          'path'     => 'tests/cache/',
+          'size'     => [
               'square' => [
                   'resize' => 'widen',
                   'crop'   => true,
@@ -345,8 +345,8 @@ class ManagerTest extends PHPUnit_Framework_TestCase
               ],
           ],
       ];
-      $path = __dir__.'/dummy/dummy.jpg';
-      $dummies = [
+        $path = __dir__.'/dummy/dummy.jpg';
+        $dummies = [
           'name'     => $path,
           'type'     => mime_content_type($path),
           'tmp_name' => $path,
@@ -354,21 +354,21 @@ class ManagerTest extends PHPUnit_Framework_TestCase
           'size'     => File::size($path),
       ];
 
-      $m = new Manager($configs);
-      $m->manage($dummies, function () {
-          return mt_rand(1000, 100000).'.jpg';
-      });
-      $this->assertTrue($m->success);
+        $m = new Manager($configs);
+        $m->manage($dummies, function () {
+            return mt_rand(1000, 100000).'.jpg';
+        });
+        $this->assertTrue($m->success);
     }
 
     public function testManager23()
     {
         $configs = [
-            'prefix' => '',
-            'exts'   => ['jpg', 'jpeg', 'png', 'gif'],
+            'prefix'   => '',
+            'exts'     => ['jpg', 'jpeg', 'png', 'gif'],
             'weight'   => 3000000,
-            'path'   => 'tests/cache/',
-            'size'   => [
+            'path'     => 'tests/cache/',
+            'size'     => [
                 'square' => [
                     'resize' => 'max',
                     'crop'   => true,
