@@ -71,24 +71,28 @@ class Manager
       if (gettype($fileInfo) != 'array') {
           $this->success = false;
           $this->errors[] = 'First parameter must be an `array` and not a `'.gettype($fileInfo).'`';
+
           return;
       }
 
       if (empty($fileInfo)) {
           $this->success = false;
           $this->errors[] = 'Array cannot be empty';
+
           return;
       }
 
       if (!isset($fileInfo['error'])) {
           $this->success = false;
           $this->errors[] = 'Array must be a valid HTTP_POST_FILES ';
+
           return;
       }
 
       if (is_null($fileInfo['error']) || $fileInfo['error'] > 0) {
           $this->success = false;
           $this->errors[] = 'Invalid file';
+
           return;
       }
 
@@ -97,6 +101,7 @@ class Manager
       if (!isset($fileInfo['extension'])) {
           $this->success = false;
           $this->errors[] = 'Invalid file';
+
           return;
       }
 
@@ -106,12 +111,14 @@ class Manager
       if ($fileInfo['size'] / 1000000 > $this->weight) {
           $this->success = false;
           $this->errors[] = 'File is too big';
+
           return;
       }
 
       if (!in_array($fileInfo['extension'], $this->exts)) {
           $this->success = false;
           $this->errors[] = 'File extension is not supported';
+
           return;
       }
 
@@ -127,11 +134,11 @@ class Manager
       } else {
           $this->success = false;
           $this->errors[] = 'File extension is not supported';
+
           return;
       }
 
       $this->success = true;
-      return;
   }
 
   /**
