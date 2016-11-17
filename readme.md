@@ -21,26 +21,26 @@ composer require anekdotes/manager
 
 Use the class where ever you need it:
 
-```
+```php
 use Anekdotes\Manager\Manager;
 ```
 
 **See configuration section below for more information**
 
 With **Laravel**:
-```
+```php
 $manager = new Manager(array);
 $manager->manage(Input::file('nameOfInput'));
 ```
 
 Without **Laravel**:
-```
+```php
 $manager = new Manager(array);
 $manager->manage($_FILES['nameOfInput']);
 ```
 
 Catch errors/exceptions:
-```
+```php
 try {
     $manager = new Manager(array);
     $manager->manage($_FILES['nameOfInput']);
@@ -51,41 +51,41 @@ try {
 
 ## Configurations
 
-### Init
+### Instantiation
 
-Must be of type array
+You can pass a config array to the Manager's constructor. 
 
-```
+```php
     new Manager(array());
 ```
 
 Available properties:
 
 **prefix** : type _string_. Path's prefix to upload file **(default: `/public`)**
-```
+```php
     'prefix' => '/public',
 ```
 **path** : type _string_. Path to upload file **(default: `/uploads`)**
-```
+```php
     'path' => 'uploads/',
 ```
 **exts** : type _array_. Array of all supported file extensions **(default: `jpg, jpeg, png`)**
-```   
+```php
     'exts' => array('jpeg', 'jpg', 'png),
 ```
 **weight** : type _integer_. Maximum file size in bytes **(default: `3 mbs`)**
-```
+```php
     'weight' => 3000000,
 ```
 **size** : type _array_. Array containing as many sizes as needed  **(default: `null`)**
-```
+```php
     'size' => array(
     ),
 ```
 
 Put together:
 
-```
+```php
     $manager = new Manager(array(
         'prefix' => '/public',
         'path' => 'uploads/',
@@ -98,7 +98,7 @@ Put together:
 
 You may pass a closure to the **manage** method to execute special code before uploading file such as creating an entry in the database or simply changing name.
 
-```
+```php
     $manager->manage($_FILES['nameOfInput'], function($fi){
         //do something fancy
         return "potato.jpg";
