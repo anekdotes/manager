@@ -71,28 +71,24 @@ class Manager
       if (gettype($fileInfo) != 'array') {
           $this->success = false;
           $this->errors[] = 'First parameter must be an `array` and not a `'.gettype($fileInfo).'`';
-
           return;
       }
 
       if (empty($fileInfo)) {
           $this->success = false;
           $this->errors[] = 'Array cannot be empty';
-
           return;
       }
 
       if (!isset($fileInfo['error'])) {
           $this->success = false;
           $this->errors[] = 'Array must be a valid HTTP_POST_FILES ';
-
           return;
       }
 
       if (is_null($fileInfo['error']) || $fileInfo['error'] > 0) {
           $this->success = false;
           $this->errors[] = 'Invalid file';
-
           return;
       }
 
@@ -101,7 +97,6 @@ class Manager
       if (!isset($fileInfo['extension'])) {
           $this->success = false;
           $this->errors[] = 'Invalid file';
-
           return;
       }
 
@@ -111,14 +106,12 @@ class Manager
       if ($fileInfo['size'] / 1000000 > $this->weight) {
           $this->success = false;
           $this->errors[] = 'File is too big';
-
           return;
       }
 
       if (!in_array($fileInfo['extension'], $this->exts)) {
           $this->success = false;
           $this->errors[] = 'File extension is not supported';
-
           return;
       }
 
@@ -134,11 +127,11 @@ class Manager
       } else {
           $this->success = false;
           $this->errors[] = 'File extension is not supported';
-
           return;
       }
 
       $this->success = true;
+      return;
   }
 
   /**
@@ -174,38 +167,46 @@ class Manager
               $newPath = $this->path.$size.'/';
               self::directorize($newPath);
               $newPath = $this->prefix.$newPath.$filename;
-              $quality = isset($config['quality']) ? $config['quality'] : $this->quality;
-              $file = Image::open($fileInfo['tmp_name']);
-              $size = $file->getSize();
+              $original = isset($config['original']) ? $config['original'] : false;
 
-              switch ($config['resize']) {
-                  case 'widen':
-                      $file = $file->resize($size->widen($config['width']));
-                      break;
-                  case 'heighten':
-                      $file = $file->resize($size->heighten($config['height']));
-                      break;
-                  case 'max':
-                      if ($size->getWidth() > $config['width']) {
-                          $file = $file->resize($size->widen($config['width']));
-                      }
-                      if ($size->getHeight() > $config['height']) {
-                          $file = $file->resize($size->heighten($config['height']));
-                      }
-                  break;
+              if ($original) {
+                File::copy($fileInfo['tmp_name'], $newPath);
+                continue;
               }
+              else {
+                $quality = isset($config['quality']) ? $config['quality'] : $this->quality;
+                $file = Image::open($fileInfo['tmp_name']);
+                $size = $file->getSize();
 
-              if ($config['crop']) {
-                  $size = new Box($config['width'], $config['height']);
-                  $mode = ImageInterface::THUMBNAIL_OUTBOUND;
-                  $file = $file->thumbnail($size, $mode);
+                switch ($config['resize']) {
+                    case 'widen':
+                        $file = $file->resize($size->widen($config['width']));
+                        break;
+                    case 'heighten':
+                        $file = $file->resize($size->heighten($config['height']));
+                        break;
+                    case 'max':
+                        if ($size->getWidth() > $config['width']) {
+                            $file = $file->resize($size->widen($config['width']));
+                        }
+                        if ($size->getHeight() > $config['height']) {
+                            $file = $file->resize($size->heighten($config['height']));
+                        }
+                    break;
+                }
+
+                if ($config['crop']) {
+                    $size = new Box($config['width'], $config['height']);
+                    $mode = ImageInterface::THUMBNAIL_OUTBOUND;
+                    $file = $file->thumbnail($size, $mode);
+                }
+
+                $tmpPath = $fileInfo['tmp_name'].'.'.$fileInfo['extension'];
+                $file->save($tmpPath, [
+                    'quality' => $quality,
+                ]);
+                File::move($tmpPath, $newPath);
               }
-
-              $tmpPath = $fileInfo['tmp_name'].'.'.$fileInfo['extension'];
-              $file->save($tmpPath, [
-                  'quality' => $quality,
-              ]);
-              File::move($tmpPath, $newPath);
           }
       }
   }
