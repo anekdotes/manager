@@ -206,6 +206,13 @@ class Manager
                     'quality' => $quality,
                 ]);
                 File::move($tmpPath, $newPath);
+
+                if (webp()) {
+                  $webpPath = str_replace('.' . $fileInfo['extension'], '.webp', $newPath);
+                  $file->save($webpPath, [
+                    'webp_quality' => $quality,
+                  ]);
+                }
               }
           }
       }
