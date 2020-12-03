@@ -1,6 +1,6 @@
 {
   "name": "anekdotes/manager",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "type": "library",
   "description": "Provides an easier way to upload images with configurations",
   "keywords": [
