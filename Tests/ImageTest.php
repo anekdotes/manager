@@ -3,9 +3,9 @@
 namespace Tests;
 
 use Anekdotes\Manager\Image;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class ImageTest extends PHPUnit_Framework_TestCase
+final class ImageTest extends TestCase
 {
     public function testIfImageGDWorks()
     {

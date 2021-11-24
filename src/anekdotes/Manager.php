@@ -11,6 +11,7 @@ class Manager
 {
     const IMAGES = ['jpg', 'jpeg', 'png'];
     const DOCUMENTS = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt'];
+    
     protected $prefix = 'public/';
     protected $exts = ['jpg', 'png', 'jpeg'];
     protected $weight = 3000000;

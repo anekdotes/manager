@@ -4,13 +4,14 @@ namespace Tests;
 
 use Anekdotes\File\File;
 use Anekdotes\Manager\Manager;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class ManagerTest extends PHPUnit_Framework_TestCase
+final class ManagerTest extends TestCase
 {
     public function testManager1()
     {
         $m = new Manager();
+
         $this->assertInstanceOf(Manager::class, $m);
     }
 
@@ -24,6 +25,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
         $reflectionProperty = $reflection->getProperty('exts');
         $reflectionProperty->setAccessible(true);
         $expected = ['jpg', 'jpeg', 'png', 'gif'];
+
         $this->assertEquals($expected, $reflectionProperty->getValue($m));
     }
 
@@ -35,6 +37,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
         $reflectionProperty = $reflection->getProperty('weight');
         $reflectionProperty->setAccessible(true);
         $expected = 3000000;
+
         $this->assertEquals($expected, $reflectionProperty->getValue($m));
     }
 
@@ -42,6 +45,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
     {
         $m = new Manager();
         $m->set('misc', true);
+
         try {
             $reflection = new \ReflectionClass($m);
             $reflectionProperty = $reflection->getProperty('misc');
@@ -71,6 +75,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
         $reflectionProperty = $reflection->getProperty('size');
         $reflectionProperty->setAccessible(true);
         $expected = $configs['size'];
+
         $this->assertEquals($expected, $reflectionProperty->getValue($m));
     }
 
@@ -78,6 +83,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
     {
         $m = new Manager();
         $m->manage('');
+
         $this->assertFalse($m->success);
     }
 
@@ -85,6 +91,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
     {
         $m = new Manager();
         $m->manage(1);
+
         $this->assertFalse($m->success);
     }
 
@@ -92,6 +99,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
     {
         $m = new Manager();
         $m->manage((object) []);
+
         $this->assertFalse($m->success);
     }
 
@@ -99,6 +107,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
     {
         $m = new Manager();
         $m->manage('');
+
         $this->assertTrue(count($m->errors) > 0);
     }
 
@@ -106,6 +115,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
     {
         $m = new Manager();
         $m->manage([]);
+
         $this->assertFalse($m->success);
     }
 
@@ -117,6 +127,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
             'poo' => 'bar',
         ];
         $m->manage($gibberish);
+
         $this->assertFalse($m->success);
     }
 
@@ -131,6 +142,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
           'size'     => null,
       ];
         $m->manage($dummies);
+
         $this->assertFalse($m->success);
     }
 
@@ -145,6 +157,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
             'size'     => 1,
         ];
         $m->manage($dummies);
+
         $this->assertFalse($m->success);
     }
 
@@ -163,6 +176,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
             'size'     => File::size($path),
         ];
         $m->manage($dummies);
+
         $this->assertFalse($m->success);
     }
 
@@ -182,6 +196,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
             'size'     => File::size($path),
         ];
         $m->manage($dummies);
+
         $this->assertFalse($m->success);
     }
 
@@ -200,6 +215,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
             'size'     => 100,
         ];
         $m->manage($dummies);
+
         $this->assertFalse($m->success);
     }
 
@@ -218,6 +234,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
             'size'     => 100,
         ];
         $m->manage($dummies);
+
         $this->assertFalse($m->success);
     }
 
@@ -248,6 +265,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
 
         $m = new Manager($configs);
         $m->manage($dummies);
+
         $this->assertTrue($m->success);
     }
 
@@ -280,6 +298,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
         $m->manage($dummies, function () {
             return mt_rand(1000, 100000).'.jpg';
         });
+
         $this->assertTrue($m->success);
     }
 
@@ -303,6 +322,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
 
         $m = new Manager($configs);
         $m->manage($dummies);
+
         $this->assertTrue($m->success);
     }
 
@@ -326,38 +346,40 @@ class ManagerTest extends PHPUnit_Framework_TestCase
 
         $m = new Manager($configs);
         $m->manage($dummies);
+
         $this->assertFalse($m->success);
     }
 
     public function testManager22()
     {
         $configs = [
-          'prefix' => '',
-          'exts'   => ['jpg', 'jpeg', 'png', 'gif'],
-          'weight' => 3000000,
-          'path'   => 'tests/cache/',
-          'size'   => [
-              'square' => [
-                  'resize' => 'widen',
-                  'crop'   => true,
-                  'width'  => 200,
-                  'height' => 200,
-              ],
-          ],
-      ];
+            'prefix' => '',
+            'exts'   => ['jpg', 'jpeg', 'png', 'gif'],
+            'weight' => 3000000,
+            'path'   => 'tests/cache/',
+            'size'   => [
+                'square' => [
+                    'resize' => 'widen',
+                    'crop'   => true,
+                    'width'  => 200,
+                    'height' => 200,
+                ]
+            ]
+        ];
         $path = __dir__.'/dummy/dummy.jpg';
         $dummies = [
-          'name'     => $path,
-          'type'     => mime_content_type($path),
-          'tmp_name' => $path,
-          'error'    => 0,
-          'size'     => File::size($path),
-      ];
+            'name'     => $path,
+            'type'     => mime_content_type($path),
+            'tmp_name' => $path,
+            'error'    => 0,
+            'size'     => File::size($path),
+        ];
 
         $m = new Manager($configs);
         $m->manage($dummies, function () {
             return mt_rand(1000, 100000).'.jpg';
         });
+
         $this->assertTrue($m->success);
     }
 
@@ -390,6 +412,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
         $m->manage($dummies, function () {
             return mt_rand(1000, 100000).'.jpg';
         });
+        
         $this->assertTrue($m->success);
     }
 }

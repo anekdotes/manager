@@ -2,3 +2,4 @@ vendor
 composer.lock
 tests/cache
 .git
+.phpunit.result.cache
