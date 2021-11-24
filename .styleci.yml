@@ -1,9 +1,0 @@
-preset: recommended
-
-disabled:
-  - method_separation
-  - no_spaces_inside_offset
-  - normalize_index_brace
-  - psr4
-  - single_class_element_per_statement
-  - space_after_semicolon
