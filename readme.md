@@ -1,11 +1,9 @@
 # Anekdotes Manager
 
-[![Latest Stable Version](https://poser.pugx.org/anekdotes/manager/v/stable)](https://packagist.org/packages/anekdotes/manager)
-[![Build Status](https://travis-ci.org/anekdotes/manager.svg?branch=master)](https://travis-ci.org/anekdotes/manager)
-[![codecov.io](https://codecov.io/github/anekdotes/manager/coverage.svg?branch=master)](https://codecov.io/github/anekdotes/manager?branch=master)
-[![StyleCI](https://styleci.io/repos/54115628/shield?style=flat)](https://styleci.io/repos/54115628)
-[![License](https://poser.pugx.org/anekdotes/manager/license)](https://packagist.org/packages/anekdotes/manager)
-[![Total Downloads](https://poser.pugx.org/anekdotes/manager/downloads)](https://packagist.org/packages/anekdotes/manager)
+[![Latest Stable Version](http://poser.pugx.org/anekdotes/manager/v)](https://packagist.org/packages/anekdotes/manager)
+[![Total Downloads](http://poser.pugx.org/anekdotes/manager/downloads)](https://packagist.org/packages/anekdotes/manager)
+[![License](http://poser.pugx.org/anekdotes/manager/license)](https://packagist.org/packages/anekdotes/manager)
+[![PHP Version Require](http://poser.pugx.org/anekdotes/manager/require/php)](https://packagist.org/packages/anekdotes/manager)
 
 A library that provides an easy way to upload files to the server simply by using configurations.
 
