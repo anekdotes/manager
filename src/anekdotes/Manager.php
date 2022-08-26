@@ -181,59 +181,72 @@ class Manager
    */
   private function handleImage($fileInfo, $filename)
   {
-      if ($this->size && is_array($this->size)) {
-          foreach ($this->size as $size => $config) {
-              $newPath = $this->path.$size.'/';
+      if (is_null($this->size) || !is_array($this->size) || (is_array($this->size) && count($this->size) == 0)) {
+          return;
+      }
 
-              self::directorize($newPath);
+      foreach ($this->size as $size => $config) {
+          $newPath = $this->path . $size . '/';
 
-              $newPath = $this->prefix.$newPath.$filename;
-              $original = isset($config['original']) ? $config['original'] : false;
+          self::directorize($newPath);
 
-              if ($original) {
-                  File::copy($fileInfo['tmp_name'], $newPath);
+          $newPath = $this->prefix . $newPath . $filename;
+          $original = isset($config['original']) ? $config['original'] : false;
 
-                  continue;
-              }
-              else {
-                $quality = isset($config['quality']) ? $config['quality'] : $this->quality;
-                $file = Image::open($fileInfo['tmp_name']);
-                $size = $file->getSize();
-                $fileWidth = $size->getWidth();
-                $fileHeight = $size->getHeight();
-                $desiredWidth = $config['width'];
-                $desiredHeight = $config['height'];
+          if ($original) {
+            File::copy($fileInfo['tmp_name'], $newPath);
 
-                if ($fileWidth > $desiredWidth && $fileHeight > $desiredHeight && $fileWidth > $fileHeight) {
-                  $file = $file->resize($size->widen($desiredWidth));
-                }
-                elseif ($fileWidth > $desiredWidth && $fileHeight > $desiredHeight && $fileHeight > $fileWidth) {
-                  $file = $file->resize($size->heighten($desiredHeight));
-                }
-                elseif ($fileWidth > $desiredWidth && $fileHeight <= $desiredHeight) {
-                  $file = $file->resize($size->widen($desiredWidth));
-                }
-                elseif ($fileWidth <= $desiredWidth && $fileHeight > $desiredHeight) {
-                  $file = $file->resize($size->heighten($desiredHeight));
-                }
+            continue;
+          }
 
-                if ($config['crop'] && $fileWidth > $desiredWidth && $fileHeight > $desiredHeight) {
-                    $size = new Box($desiredWidth, $desiredHeight);
-                    $mode = ImageInterface::THUMBNAIL_OUTBOUND;
-                    $file = $file->thumbnail($size, $mode);
-                }
+          $quality = isset($config['quality']) ? $config['quality'] : $this->quality;
+          $file = Image::open($fileInfo['tmp_name']);
+          $size = $file->getSize();
+          $fileWidth = $size->getWidth();
+          $fileHeight = $size->getHeight();
 
-                $file->save($newPath, [
-                    'quality' => $quality,
-                ]);
+          if (!isset($config['width']) || is_null($config['width'])) {
+            $desiredWidth = $fileWidth;  
+          }
+          else {
+            $desiredWidth = $config['width'];
+          }
 
-                if (webp()) {
-                    $webpPath = str_replace('.' . $fileInfo['extension'], '.webp', $newPath);
-                    $file->save($webpPath, [
-                        'webp_quality' => $quality,
-                    ]);
-                }
-              }
+          if (!isset($config['height']) || is_null($config['height'])) {
+            $desiredHeight = $fileHeight;  
+          }
+          else {
+            $desiredHeight = $config['height'];
+          }
+
+          if ($fileWidth > $desiredWidth && $fileHeight > $desiredHeight && $fileWidth > $fileHeight) {
+            $file = $file->resize($size->widen($desiredWidth));
+          }
+          elseif ($fileWidth > $desiredWidth && $fileHeight > $desiredHeight && $fileHeight > $fileWidth) {
+            $file = $file->resize($size->heighten($desiredHeight));
+          }
+          elseif ($fileWidth > $desiredWidth && $fileHeight <= $desiredHeight) {
+            $file = $file->resize($size->widen($desiredWidth));
+          }
+          elseif ($fileWidth <= $desiredWidth && $fileHeight > $desiredHeight) {
+            $file = $file->resize($size->heighten($desiredHeight));
+          }
+
+          if ($config['crop'] && $fileWidth > $desiredWidth && $fileHeight > $desiredHeight) {
+              $size = new Box($desiredWidth, $desiredHeight);
+              $mode = ImageInterface::THUMBNAIL_OUTBOUND;
+              $file = $file->thumbnail($size, $mode);
+          }
+
+          $file->save($newPath, [
+              'quality' => $quality,
+          ]);
+
+          if (webp()) {
+              $webpPath = str_replace('.' . $fileInfo['extension'], '.webp', $newPath);
+              $file->save($webpPath, [
+                  'webp_quality' => $quality,
+              ]);
           }
       }
   }
@@ -248,7 +261,7 @@ class Manager
   {
       self::directorize($this->path);
 
-      $newPath = $this->prefix.$this->path.$filename;
+      $newPath = $this->prefix . $this->path . $filename;
 
       File::copy($fileInfo['tmp_name'], $newPath);
   }

@@ -1,6 +1,6 @@
 {
   "name": "anekdotes/manager",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "type": "library",
   "description": "Provides an easier way to upload images with configurations",
   "keywords": [
@@ -19,8 +19,8 @@
   ],
   "require": {
     "php": ">=7.4.0",
-    "imagine/imagine": "*",
-    "anekdotes/file": "*"
+    "imagine/imagine": "^1.3.2",
+    "anekdotes/file": "^2.0.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^9"
